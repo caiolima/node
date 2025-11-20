@@ -155,13 +155,6 @@ class V8_EXPORT HeapStatistics {
   size_t number_of_detached_contexts() { return number_of_detached_contexts_; }
 
   /**
-   * Returns the total number of bytes allocated since the Isolate was created.
-   * This includes all heap objects allocated in any space (new, old, code,
-   * etc.).
-   */
-  uint64_t total_allocated_bytes() { return total_allocated_bytes_; }
-
-  /**
    * Returns a 0/1 boolean, which signifies whether the V8 overwrite heap
    * garbage with a bit pattern.
    */
@@ -182,10 +175,27 @@ class V8_EXPORT HeapStatistics {
   size_t number_of_detached_contexts_;
   size_t total_global_handles_size_;
   size_t used_global_handles_size_;
-  uint64_t total_allocated_bytes_;
 
   friend class V8;
   friend class Isolate;
+};
+
+/**
+ * Collection of V8 heap information with total_allcoated_bytes.
+ *
+ * Instances of this class can be passed to
+ * v8::Isolate::GetHeapStatisticsForNodeLTS to get heap statistics from V8.
+ * This should not be used outside Node.JS, since it was just added to
+ * avoid changes in HeapStatistics that would break ABI.
+ */
+class V8_EXPORT HeapStatisticsForNodeLTS : public HeapStatistics {
+public:
+  uint64_t total_allocated_bytes() { return total_allocated_bytes_; }
+private:
+  uint64_t total_allocated_bytes_;
+
+friend class V8;
+friend class Isolate;
 };
 
 class V8_EXPORT HeapSpaceStatistics {

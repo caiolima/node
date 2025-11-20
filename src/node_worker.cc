@@ -35,6 +35,7 @@ using v8::FunctionTemplate;
 using v8::HandleScope;
 using v8::HeapProfiler;
 using v8::HeapStatistics;
+using v8::HeapStatisticsForNodeLTS;
 using v8::Integer;
 using v8::Isolate;
 using v8::Local;
@@ -1230,8 +1231,8 @@ void Worker::GetHeapStatistics(const FunctionCallbackInfo<Value>& args) {
                                         env](Environment* worker_env) mutable {
     // We create a unique pointer to HeapStatistics so that the actual object
     // it's not copied in the lambda, but only the pointer is.
-    auto heap_stats = std::make_unique<HeapStatistics>();
-    worker_env->isolate()->GetHeapStatistics(heap_stats.get());
+    auto heap_stats = std::make_unique<HeapStatisticsForNodeLTS>();
+    worker_env->isolate()->GetHeapStatisticsForNodeLTS(heap_stats.get());
 
     // Here, the worker thread temporarily owns the WorkerHeapStatisticsTaker
     // object.

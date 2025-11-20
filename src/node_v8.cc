@@ -46,6 +46,7 @@ using v8::HandleScope;
 using v8::HeapCodeStatistics;
 using v8::HeapSpaceStatistics;
 using v8::HeapStatistics;
+using v8::HeapStatisticsForNodeLTS;
 using v8::Integer;
 using v8::Isolate;
 using v8::Local;
@@ -205,8 +206,8 @@ void SetHeapSnapshotNearHeapLimit(const FunctionCallbackInfo<Value>& args) {
 
 void UpdateHeapStatisticsBuffer(const FunctionCallbackInfo<Value>& args) {
   BindingData* data = Realm::GetBindingData<BindingData>(args);
-  HeapStatistics s;
-  args.GetIsolate()->GetHeapStatistics(&s);
+  HeapStatisticsForNodeLTS s;
+  args.GetIsolate()->GetHeapStatisticsForNodeLTS(&s);
   AliasedFloat64Array& buffer = data->heap_statistics_buffer;
 #define V(index, name, _) buffer[index] = static_cast<double>(s.name());
   HEAP_STATISTICS_PROPERTIES(V)

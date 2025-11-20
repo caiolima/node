@@ -1012,6 +1012,13 @@ class V8_EXPORT Isolate {
   void GetHeapStatistics(HeapStatistics* heap_statistics);
 
   /**
+   * Get statistics about the heap memory usage.
+   * This should not be used outside Node.JS, since it was just added to
+   * avoid changes in HeapStatistics that would break ABI.
+   */
+  void GetHeapStatisticsForNodeLTS(HeapStatisticsForNodeLTS* heap_statistics);
+
+  /**
    * Returns the number of spaces in the heap.
    */
   size_t NumberOfHeapSpaces();

@@ -17734,8 +17734,8 @@ UNINITIALIZED_TEST(GetHeapTotalAllocatedBytes) {
     LocalContext env(isolate);
     i::Isolate* i_isolate = reinterpret_cast<i::Isolate*>(isolate);
 
-    v8::HeapStatistics heap_stats_before;
-    isolate->GetHeapStatistics(&heap_stats_before);
+    v8::HeapStatisticsForNodeLTS heap_stats_before;
+    isolate->GetHeapStatisticsForNodeLTS(&heap_stats_before);
     size_t initial_allocated = heap_stats_before.total_allocated_bytes();
 
     i::MaybeHandle<i::FixedArray> young_alloc =
@@ -17766,8 +17766,8 @@ UNINITIALIZED_TEST(GetHeapTotalAllocatedBytes) {
         lo_number_of_elements, i::AllocationType::kTrusted);
     USE(trusted_lo_alloc);
 
-    v8::HeapStatistics heap_stats_after;
-    isolate->GetHeapStatistics(&heap_stats_after);
+    v8::HeapStatisticsForNodeLTS heap_stats_after;
+    isolate->GetHeapStatisticsForNodeLTS(&heap_stats_after);
     uint64_t final_allocated = heap_stats_after.total_allocated_bytes();
 
     CHECK_GT(final_allocated, initial_allocated);
@@ -17778,8 +17778,8 @@ UNINITIALIZED_TEST(GetHeapTotalAllocatedBytes) {
     // there's no double counting on evacuated/promoted objects.
     v8::internal::heap::InvokeAtomicMajorGC(i_isolate->heap());
 
-    v8::HeapStatistics heap_stats_after_gc;
-    isolate->GetHeapStatistics(&heap_stats_after_gc);
+    v8::HeapStatisticsForNodeLTS heap_stats_after_gc;
+    isolate->GetHeapStatisticsForNodeLTS(&heap_stats_after_gc);
     uint64_t total_allocation_after_gc =
         heap_stats_after_gc.total_allocated_bytes();
 
@@ -17809,8 +17809,8 @@ UNINITIALIZED_TEST(GetHeapTotalAllocatedBytesSharedSpaces) {
     v8::HandleScope handle_scope(isolate);
     LocalContext env(isolate);
 
-    v8::HeapStatistics heap_stats_before;
-    isolate->GetHeapStatistics(&heap_stats_before);
+    v8::HeapStatisticsForNodeLTS heap_stats_before;
+    isolate->GetHeapStatisticsForNodeLTS(&heap_stats_before);
     size_t initial_allocated = heap_stats_before.total_allocated_bytes();
 
     i::Isolate* i_isolate = reinterpret_cast<i::Isolate*>(isolate);
@@ -17839,7 +17839,7 @@ UNINITIALIZED_TEST(GetHeapTotalAllocatedBytesSharedSpaces) {
     USE(shared_lo_alloc);
 
     v8::HeapStatistics heap_stats_after;
-    isolate->GetHeapStatistics(&heap_stats_after);
+    isolate->GetHeapStatisticsForNodeLTS(&heap_stats_after);
     uint64_t final_allocated = heap_stats_after.total_allocated_bytes();
 
     CHECK_GT(final_allocated, initial_allocated);
